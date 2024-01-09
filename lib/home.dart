@@ -10,19 +10,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   int currentIndex = 0;
-  bool isSelected = false;
-  late AnimationController _controller;
-  final List<String> options = [
-    'option1',
-    'option2',
-    'option3',
-    'option4',
-  ];
-
-  bool tileOne = false;
-  bool tileTwo = false;
-  bool tileThree = false;
-  bool tileFour = false;
 
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -65,33 +52,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   Navigator.pop(context);
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 48,
               )
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget buildAnimatedTile(String text, int index) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1.0, 0.0),
-        end: const Offset(0.0, 0.0),
-      ).animate(CurvedAnimation(
-        parent: _controller,
-        curve:
-            Interval((index - 1) * 0.2, index * 0.2, curve: Curves.easeInOut),
-      )),
-      child: ListTile(
-        title: Text(text),
-        onTap: () {
-          _controller.forward(from: 0.0);
-          // Add your onTap logic here
-        },
-      ),
     );
   }
 
@@ -107,36 +74,35 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               const Row(
                 children: [
                   CircleAvatar(
-                    // Add photo here
                     radius: 30,
                     // backgroundImage: AssetImage('path_to_your_photo'),
                   ),
-                  SizedBox(width: 8), // Adjust spacing as needed
+                  SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Karim Saif',
+                        'Shivam Chauhan',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        'Position', // Add the position of the person here
+                        'Position',
                         style: TextStyle(
                           color: Colors.grey,
                         ),
                       ),
                     ],
                   ),
-                  Spacer(), // Takes remaining space
+                  Spacer(),
                   Row(
                     children: [
                       Text(
                         'Poll',
                         style: TextStyle(
-                          color: Colors.blue, // Customize color as needed
+                          color: Colors.blue,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -144,8 +110,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         width: 4,
                       ),
                       Icon(
-                        Icons.more_horiz, // More horizontal icon
-                        color: Colors.grey, // Customize color as needed
+                        Icons.more_horiz,
+                        color: Colors.grey,
                       ),
                     ],
                   ),
@@ -156,55 +122,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'What is the reason guys, yesterday I uploaded same type of content?',
+                    'What is the reason guys, yesterday I uploaded the same type of content?',
                   ),
                   const SizedBox(height: 8),
-                  ListTile(
-                    // tileColor: tileOne ? Colors.blue : Colors.transparent,
-                    title: const Text('What is the reason '),
-                    onTap: () {
-                      // setState(() {
-                      //   tileOne = !tileOne;
-                      // });
-                      buildAnimatedTile('What is the reason ', 1);
-
-                      // change the color of the tile
-                    },
-                  ),
-                  ListTile(
-                    tileColor: tileTwo ? Colors.blue : Colors.transparent,
-                    title: const Text('What is the reason '),
-                    onTap: () {
-                      setState(() {
-                        tileTwo = !tileTwo;
-                      });
-                      // change the color of the tile
-                    },
-                  ),
-                  ListTile(
-                    tileColor: tileThree ? Colors.blue : Colors.transparent,
-                    title: const Text('What is the reason '),
-                    onTap: () {
-                      setState(() {
-                        tileThree = !tileThree;
-                      });
-                      // change the color of the tile
-                    },
-                  ),
-                  ListTile(
-                    tileColor: tileFour ? Colors.blue : Colors.transparent,
-                    title: const Text('What is the reason '),
-                    onTap: () {
-                      setState(() {
-                        tileFour = !tileFour;
-                      });
-                      // change the color of the tile
-                    },
-                  ),
-                  buildAnimatedTile('What is the reason ', 1),
-                  buildAnimatedTile('What is the reason ', 2),
-                  buildAnimatedTile('What is the reason ', 3),
-                  buildAnimatedTile('What is the reason ', 4),
+                  buildSelectableTile(1, 'What is the reason'),
+                  buildSelectableTile(2, 'What is the reason'),
+                  buildSelectableTile(3, 'What is the reason'),
+                  buildSelectableTile(4, 'What is the reason'),
                 ],
               ),
             ],
@@ -214,12 +138,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
+  List<bool> tileSelection = [false, false, false, false];
+
+  void selectTile(int index) {
+    for (int i = 0; i < tileSelection.length; i++) {
+      tileSelection[i] = i == index;
+    }
+  }
+
+  ListTile buildSelectableTile(int index, String text) {
+    return ListTile(
+      tileColor: tileSelection[index - 1] ? Colors.blue : Colors.transparent,
+      title: Text(text),
+      onTap: () {
+        setState(() {
+          selectTile(index - 1);
+        });
+      },
     );
   }
 
@@ -288,11 +223,5 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }
