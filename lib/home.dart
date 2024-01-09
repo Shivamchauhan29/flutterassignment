@@ -118,18 +118,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 ],
               ),
               const SizedBox(height: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'What is the reason guys, yesterday I uploaded the same type of content?',
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey, // Customize border color as needed
+                    width: 1.0, // Customize border width as needed
                   ),
-                  const SizedBox(height: 8),
-                  buildSelectableTile(1, 'What is the reason'),
-                  buildSelectableTile(2, 'What is the reason'),
-                  buildSelectableTile(3, 'What is the reason'),
-                  buildSelectableTile(4, 'What is the reason'),
-                ],
+                  borderRadius: BorderRadius.circular(
+                      8.0), // Customize border radius as needed
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'What is the reason guys, yesterday I uploaded the same type of content?',
+                      ),
+                      const SizedBox(height: 8),
+                      buildSelectableTile(1, 'What is the reason'),
+                      buildSelectableTile(2, 'What is the reason'),
+                      buildSelectableTile(3, 'What is the reason'),
+                      buildSelectableTile(4, 'What is the reason'),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -202,7 +215,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
         body: TabBarView(
           children: [
-            polls(),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey, // Customize border color as needed
+                  width: 1.0, // Customize border width as needed
+                ),
+                borderRadius: BorderRadius.circular(
+                    8.0), // Customize border radius as needed
+              ),
+              child: polls(),
+            ),
             const Center(child: Text('Tab 2')),
           ],
         ),
