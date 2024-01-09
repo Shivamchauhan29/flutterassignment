@@ -39,14 +39,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 },
               ),
               ListTile(
-                title: Text('Share Project'),
+                title: const Text('Share Project'),
                 onTap: () {
                   // Handle Share Project action
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: Text('Open Discussion'),
+                title: const Text('Open Discussion'),
                 onTap: () {
                   // Handle Open Discussion action
                   Navigator.pop(context);
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  List<bool> tileSelection = [false, false, false, false];
+  List tileSelection = [false, false, false, false];
 
   void selectTile(int index) {
     for (int i = 0; i < tileSelection.length; i++) {
@@ -148,8 +148,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   ListTile buildSelectableTile(int index, String text) {
     return ListTile(
-      tileColor: tileSelection[index - 1] ? Colors.blue : Colors.transparent,
-      title: Text(text),
+      title: AnimatedContainer(
+        duration: const Duration(milliseconds: 800),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              tileSelection[index - 1]
+                  ? Colors.blue.withOpacity(0.8)
+                  : Colors.transparent,
+              tileSelection[index - 1]
+                  ? Colors.blue.withOpacity(0.2)
+                  : Colors.transparent,
+            ],
+          ),
+          // borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: tileSelection[index - 1] ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       onTap: () {
         setState(() {
           selectTile(index - 1);
